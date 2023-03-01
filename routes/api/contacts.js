@@ -1,43 +1,21 @@
 const express = require('express')
-const contacts = require('../../models/contacts')
+
 const router = express.Router();
-const {HttpError} = require('../../helpers')
 
-router.get('/', async (req, res, next) => {
-  try {
-    const result = await contacts.listContacts();
-    res.json(result)
-  
- } catch (error) {
-    res.status(500).json({
-    message:"Server error"
-  })
- }
-})
+const ctrl = require("../../controllers/contacts")
 
-router.get('/:contactId', async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const result = await contacts.getContactById(contactId);
-    if (!result) {
-      throw HttpError(404, "Non found");    
-    }
-    res.json(result);    
-  } catch (error) {
-        next(error)
-  }
-})
+const { validateBody } = require('../../middlewares')
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const schemas = require('../../schemas/contacts')
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/', ctrl.listContacts)
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/:contactId', ctrl.getContactById)
+
+router.post('/', validateBody(schemas.addSchema), ctrl.addContact)
+
+router.delete('/:contactId', ctrl.removeContact)
+
+router.put('/:contactId', validateBody(schemas.addSchema), ctrl.updateContact)
 
 module.exports = router
