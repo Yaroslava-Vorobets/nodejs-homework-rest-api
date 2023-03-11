@@ -1,11 +1,11 @@
 const app = require('./app')
 
 const mongoose = require('mongoose')
-const BD_HOST = 'mongodb+srv://Slava:5rp1rp1o2i58RmbF@cluster0.wed3t41.mongodb.net/db-contacts?retryWrites=true&w=majority'
+const { BD_HOST, PORT = 3000 } = process.env;
 
- mongoose.set('strictQuery', true)
+mongoose.set('strictQuery', true)
 mongoose.connect(BD_HOST)
-  .then(() => app.listen(3000, () => {
+  .then(() => app.listen(PORT, () => {
   console.log("Database connection successful")
 }))
   .catch(error => {
@@ -14,3 +14,4 @@ mongoose.connect(BD_HOST)
   })
 
 
+// 5rp1rp1o2i58RmbF
