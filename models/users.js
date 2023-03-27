@@ -2,8 +2,6 @@ const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../helpers');
 const Joi = require('joi');
 
-
-
 const userSchema = new Schema(
   {
     password: {
@@ -23,6 +21,10 @@ const userSchema = new Schema(
     token: {
       type: String,
       default: ""
+    },
+     avatarURL: {
+        type: String,
+        required: true,
     }
   }, { versionKey: false, timestamps: true })
 
